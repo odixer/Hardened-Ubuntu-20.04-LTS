@@ -9,20 +9,8 @@ fi
 # install bats if it isnt installed
 if ! dpkg -s bats 1>/dev/null 2>/dev/null
 then
-  # open outbound http,https and DNS ports to install bats
-  echo "Opening ports 80,443,53 for bats installation..."
-  ufw allow out to any port 80
-  ufw allow out to any port 443
-  ufw allow out to any port 53
-
   # install bats
   apt install -y bats
-
-  # close outbound http,https and DNS ports
-  echo "Closing ports 80,443,53..."
-  ufw delete allow out 80
-  ufw delete allow out 443
-  ufw delete allow out 53
 fi
 
 
