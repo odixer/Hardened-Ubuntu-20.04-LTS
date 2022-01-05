@@ -1,0 +1,45 @@
+#!/bin/bash
+
+script_path="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+# open outbound http,https and DNS ports to install bats
+ufw allow out to any port 80
+ufw allow out to any port 443
+ufw allow out to any port 53
+
+# install bats
+apt install -y bats
+
+# close outbound http,https and DNS ports
+ufw delete allow out 80
+ufw delete allow out 443
+ufw delete allow out 53
+
+# run validation scripts
+bats $script_path/validation-scripts/1.1-Filesystem-Configuration.bats
+bats $script_path/validation-scripts/1.2-Configure-Software-Updates.bats
+bats $script_path/validation-scripts/1.3-Configure-sudo.bats
+bats $script_path/validation-scripts/1.4-Filesystem-integrity-checking.bats
+bats $script_path/validation-scripts/1.5-Secure-boot-settings.bats
+bats $script_path/validation-scripts/1.6-Additional-Process-Hardening.bats
+bats $script_path/validation-scripts/1.7-Mandatory-Access-Control.bats
+bats $script_path/validation-scripts/1.8-Warning-Banners.bats
+bats $script_path/validation-scripts/1.9-Updates-Patches-Securitysoftware.bats
+bats $script_path/validation-scripts/1.10-Ensure-GDM-is-removed-or-login.bats
+bats $script_path/validation-scripts/2.1-inetd-Services.bats
+bats $script_path/validation-scripts/2.2-Special-Purpose-Services.bats
+bats $script_path/validation-scripts/2.3-Service-Clients.bats
+bats $script_path/validation-scripts/3.1-Disable-unused-network-protocols-and-devices.bats
+bats $script_path/validation-scripts/3.2-Network-Parameters-Host-Only.bats
+bats $script_path/validation-scripts/3.3-Network-Parameters.bats
+bats $script_path/validation-scripts/3.4-Uncommon-Network-Protocols.bats
+bats $script_path/validation-scripts/3.5-Firewall-Configuration.bats
+bats $script_path/validation-scripts/4.1-Configure-System-Accounting.bats
+bats $script_path/validation-scripts/4.2-Configure-Logging.bats
+bats $script_path/validation-scripts/4.3-Ensure-logrotate-is-configured.bats
+bats $script_path/validation-scripts/5.1-Configure-cron.bats
+bats $script_path/validation-scripts/5.2-SSH-Server-Configuration.bats
+bats $script_path/validation-scripts/5.3-Configure-PAM.bats
+bats $script_path/validation-scripts/5.4-User-Accounts-and-Environment.bats
+bats $script_path/validation-scripts/6.1-System-File-Permissions.bats
+bats $script_path/validation-scripts/6.2-User-and-Group-Settings.bats
